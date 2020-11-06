@@ -2,6 +2,7 @@ import { getRepository } from 'typeorm'
 import { hash } from 'bcryptjs'
 
 import Usuario from '../models/Usuario'
+import AppError from '../errors/AppError'
 
 interface Request{
 	name: string
@@ -15,7 +16,7 @@ class CreateUsuarioService {
 		const usuarioFind = await usuarioRepository.findOne({ where: { email } })
 
 		if (usuarioFind) {
-			throw new Error('Usuário já existe ')
+			throw new AppError('Usuário já existe ')
 		}
 
 		// Hash da senha

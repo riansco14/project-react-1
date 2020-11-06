@@ -19,18 +19,14 @@ agendamentosRouter.get('/', async (request, response) => {
 })
 
 agendamentosRouter.post('/', async (request, response) => {
-	try {
-		const { date, provider } = request.body
-		const parsedDate = parseISO(date)
+	const { date, provider } = request.body
+	const parsedDate = parseISO(date)
 
-		const createAgendamentoService = new CreateAgendamentoService()
+	const createAgendamentoService = new CreateAgendamentoService()
 
-		const agendamento = await createAgendamentoService.execute({ date: parsedDate, provider })
+	const agendamento = await createAgendamentoService.execute({ date: parsedDate, provider })
 
-		return response.json(agendamento)
-	} catch (error) {
-		return response.status(400).json({ error: error.message })
-	}
+	return response.json(agendamento)
 })
 
 export default agendamentosRouter

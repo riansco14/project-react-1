@@ -1,5 +1,6 @@
 import { startOfHour } from 'date-fns'
 import { getCustomRepository } from 'typeorm'
+import AppError from '../errors/AppError'
 
 import Appointment from '../models/Agendamento'
 import AppointmentRepository from '../repositories/AgendamentosRepository'
@@ -17,7 +18,7 @@ class CreateAgendamentoService {
 		const findAppointmentInSameDate = await appointmentRepository.findByDate(appointmentDate)
 
 		if (findAppointmentInSameDate) {
-			throw Error('Esse agendamento já foi realizado nesse horário')
+			throw new AppError('Esse agendamento já foi realizado nesse horário')
 		}
 
 		const appointment = appointmentRepository.create({ provider_id, date: appointmentDate })

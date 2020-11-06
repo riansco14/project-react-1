@@ -4,6 +4,7 @@ import { sign } from 'jsonwebtoken'
 
 import Usuario from '../models/Usuario'
 import sessionConfig from '../config/session'
+import AppError from '../errors/AppError'
 interface Request{
 	email: string
 	password: string
@@ -19,11 +20,11 @@ class CreateSessionService {
 
 		const usuarioFind = await usuarioRepository.findOne({ where: { email } })
 
-		if (!usuarioFind) { throw new Error('Usuario não encontrado') }
+		if (!usuarioFind) { throw new AppError('Usuario não encontrado', 401) }
 
 		const checkPassword = await compare(password, usuarioFind.password)
 
-		if (!checkPassword) { throw new Error('Senha Invalida') }
+		if (!checkPassword) { throw new AppError('Senha Invalida', 401) }
 
 		// usuario autenticado
 		// 1. colocar informações do usuario

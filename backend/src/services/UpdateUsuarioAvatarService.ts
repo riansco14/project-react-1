@@ -4,6 +4,7 @@ import path from 'path'
 import fs from 'fs'
 
 import uploadConfig from '../config/upload'
+import AppError from '../errors/AppError'
 
 interface Request{
 	user_id: string
@@ -15,7 +16,7 @@ class UpdateUsuarioAvatarService {
 
 		const usuarioFind = await usuarioRepository.findOne(user_id)
 
-		if (!usuarioFind) { throw new Error('Usuario Invalido, apenas usuarios autenticados') }
+		if (!usuarioFind) { throw new AppError('Usuario Invalido, apenas usuarios autenticados', 401) }
 
 		if (usuarioFind.avatar) {
 			const usuarioAvatarFilePath = path.join(uploadConfig.directory, usuarioFind.avatar)
